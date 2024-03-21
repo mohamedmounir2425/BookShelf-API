@@ -88,15 +88,25 @@ const GetBookByTitle=async(req,res,next)=>{
     let userId = await AuthController.decodeToken(req)
     let user = await UserController.GetUserById(userId)
     let book= await BookModel.findOne({_id:bookId})
+
+   let purchasedCheck= user.purchased.find((item)=>{
+      return item.book._id==book._id
+    })
     let found=book.review.find((review)=>{
     return  review.userName==user.name
     })
-    if(found){
-      return res.send({reviewed:true})
+    if(purchasedCheck){
+      if(found){
+        return res.send({reviewed:true})
+      }else{
+        return res.send({reviewed:false})
+  
+      }
     }else{
-      return res.send({reviewed:false})
+      return res.send({purchased:false})
 
     }
+ 
 
   }
 
