@@ -35,6 +35,7 @@ let register = async (req, res) => {
 let login = async (req, res) => {
     var body = req.body;
     if (!body.gmail) {
+        console.log(req.body)
         body.email = body.email.toLowerCase();
         let foundUser = await FoundUser(body.email);
         if (!foundUser) return res.status(404).send({ message: "invalid email or password" })
