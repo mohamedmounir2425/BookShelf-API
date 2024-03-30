@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const mongoose = require('mongoose');
 
-mongoose.connect(MONGO_URI,{  autoIndex: true })
+mongoose.connect("mongodb+srv://amlmahdawy21:AwxFJT9DHwJNQLK6@cluster0.lh1mpfk.mongodb.net/")
 .then(()=>{console.log("connected")});
 
 app.use(express.urlencoded({extended:true}));
