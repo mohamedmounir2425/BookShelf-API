@@ -18,7 +18,8 @@ let GetUserData = async (req, res, next) => {
         name: user.name,
         email: user.email,
         favourite: user.favourite,
-        purchased: user.purchased
+        purchased: user.purchased,
+        image:user.image
     })
 }
 
@@ -28,15 +29,38 @@ let AddToFavourites = async (req, res, next) => {
     let userID = await AuthController.decodeToken(req, res)
     if (userID) {
         let user = await GetUserById(userID)
-        let Book = await BookModel.findOne({ _id: bookId }, { title: 1, price: 1, authors: 1, pageCount: 1, thumbnailUrl: 1, _id: 0 })
+        let Book = await BookModel.findOne({ _id: bookId }, { title: 1, price: 1, authors: 1, pageCount: 1, thumbnailUrl: 1, _id: 1 })
         user.favourite.push(Book)
         await user.save()
         res.send({ message: "Added To Favourites" })
     } else {
         res.send({ message: "user not logged in" })
-
     }
+}
+let favNumbers = async (req, res, next) => {
 
+    let userID = await AuthController.decodeToken(req, res)
+    let favLength=0;
+    if (userID) {
+        let user = await GetUserById(userID)
+        favLength=user.favourite.length;
+        
+        res.send({ message: "success",data:favLength })
+    } else {
+        res.send({ message: "cant get length" })
+    }
+}
+let getAllFavs=async(req,res)=>{
+    let userID = await AuthController.decodeToken(req, res)
+    let favs;
+    if (userID) {
+        let user = await GetUserById(userID)
+        favs=user.favourite;
+
+        res.send({ message: "success",data:favs })
+    } else {
+        res.send({ message: "cant get favourits" })
+    }
 }
 let RemoveFromFavourites = async (req, res, next) => {
     let { bookId } = req.body
@@ -44,14 +68,16 @@ let RemoveFromFavourites = async (req, res, next) => {
     let userID = await AuthController.decodeToken(req, res)
     if (userID) {
         let user = await GetUserById(userID)
-        let Book = await BookModel.findOne({ _id: bookId }, { title: 1, price: 1, authors: 1, pageCount: 1, thumbnailUrl: 1, _id: 0 })
+        
+        let Book = await BookModel.findOne({ _id: bookId }, { title: 1, price: 1, authors: 1, pageCount: 1, thumbnailUrl: 1, _id: 1 })
 
         for (let i = 0; i < user.favourite.length; i++) {
+
             if (JSON.stringify(user.favourite[i]) == JSON.stringify(Book)) {
                 user.favourite.splice(i, 1)
                 await user.save()
+             
                 return res.send({ message: "Removed From Favourites" })
-
             }
         }
     } else {
@@ -101,6 +127,8 @@ module.exports = {
     AddToFavourites,
     RemoveFromFavourites,
     checkIfFavourite,
-    getAllUser
+    getAllUser,
+    favNumbers,
+    getAllFavs
 }
 

@@ -16,6 +16,7 @@ const UsersSchema = new mongoose.Schema({
 		enum: ['admin', 'user'],
 		required: true,
 	},
+    image:{}
 
 })
 module.exports = mongoose.model("Users",UsersSchema);

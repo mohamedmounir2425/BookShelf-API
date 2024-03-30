@@ -7,6 +7,9 @@ router.get("/profile",UsersController.GetUserData)
 router.post("/add-favourite",UsersController.AddToFavourites)
 router.post("/delete-favourite",UsersController.RemoveFromFavourites)
 router.post("/check-favourite",UsersController.checkIfFavourite)
+router.get("/favs",UsersController.favNumbers)
+router.get("/allfavs",UsersController.getAllFavs)
+
 
 
 

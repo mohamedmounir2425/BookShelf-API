@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT ||3000 ;
-
+const path = require("path");
 const cors = require('cors');
 
 const mongoose = require('mongoose');
@@ -24,6 +24,7 @@ app.use("/user",UsersRoutes)
 app.use("/book",BookRoutes)
 app.use("/cart",CartRoutes)
 app.use("/admin",AdminRoutes)
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 
 app.listen(PORT, ()=>{console.log("http://localhost:"+PORT)});

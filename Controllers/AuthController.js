@@ -10,9 +10,13 @@ async function FoundUser(email) {
 
 
 let register = async (req, res) => {
-
-    var body = req.body.data;
-    console.log("body of register",body)
+    // console.log(req)
+    // var body = req.body.data;
+    console.log("reqqqqqqqqqqqq",req.body)
+    console.log("fileeee",req.file)
+    var body = req.body;
+    var file=req.file.originalname;
+   
     let foundUser = await FoundUser(body.email);
     if (foundUser) return res.status(404).send({ message: false });
 
@@ -23,9 +27,10 @@ let register = async (req, res) => {
     body.email = body.email.toLowerCase();
     body.password = hashedPassword;
     body.isAdmin='user'
+    body.image=file
 
     var newUser = new AuthModel(body);
-    console.log(newUser)
+
     await newUser.save()
         .then()
         .catch((err) => { res.json({ message: err }) });
@@ -60,7 +65,6 @@ let login = async (req, res) => {
         }, "secret");
         res.header("x-auth-token", token);
         res.status(200).send({ token: token ,message:true});
-
     }
 
 
