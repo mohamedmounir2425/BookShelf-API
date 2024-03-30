@@ -18,12 +18,12 @@ const AuthRoutes = require("./Routes/AuthRoutes")
 const UsersRoutes = require("./Routes/UserRoutes")
 const BookRoutes= require("./Routes/BookRoutes")
 const CartRoutes=require("./Routes/CartRoutes")
-
+const AdminRoutes=require("./Routes/adminRoutes")
 app.use("/auth",AuthRoutes)
 app.use("/user",UsersRoutes)
 app.use("/book",BookRoutes)
 app.use("/cart",CartRoutes)
-
+app.use("/admin",AdminRoutes)
 
 
 app.listen(PORT, ()=>{console.log("http://localhost:"+PORT)});

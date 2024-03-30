@@ -20,6 +20,7 @@ const GetUserCart = async (req, res, next) => {
 const AddBookToCart = async (req, res, next) => {
 
     let { bookId } = req.body
+    console.log(req.body)
     let date = new Date()
 
     let userId = await AuthController.decodeToken(req)
@@ -27,7 +28,6 @@ const AddBookToCart = async (req, res, next) => {
    
         let user = await UserController.GetUserById(userId)
         let book = await BookModel.findOne({ _id: bookId }, { quantity: 0, })
-
 
         for (let i = 0; i < user.cart.length; i++) {
             if (user.cart[i].book._id == bookId) {
@@ -37,7 +37,7 @@ const AddBookToCart = async (req, res, next) => {
                 return res.send(user.cart);
             }
         }
-
+console.log("book",book)
         user.cart.push({ book, date, quantity: 1 })
         await user.save()
 

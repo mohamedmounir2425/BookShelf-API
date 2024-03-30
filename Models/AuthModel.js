@@ -10,7 +10,12 @@ const UsersSchema = new mongoose.Schema({
     password:{type:String, minLength:5, required:true},
     purchased:[],
     favourite:[],
-    cart:[]
+    cart:[],
+    isAdmin: {
+		type: String,
+		enum: ['admin', 'user'],
+		required: true,
+	},
 
 })
 module.exports = mongoose.model("Users",UsersSchema);
