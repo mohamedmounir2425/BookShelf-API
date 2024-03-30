@@ -4,8 +4,6 @@ const AuthController = require("../Controllers/AuthController")
 const { json } = require('express');
 const BookModel = require('../Models/BookModel');
 
-
-
 let GetUserById = async (userID) => {
     return await AuthModel.findOne({ _id: userID })
 }
@@ -45,7 +43,6 @@ let RemoveFromFavourites = async (req, res, next) => {
 
     let userID = await AuthController.decodeToken(req, res)
     if (userID) {
-
         let user = await GetUserById(userID)
         let Book = await BookModel.findOne({ _id: bookId }, { title: 1, price: 1, authors: 1, pageCount: 1, thumbnailUrl: 1, _id: 0 })
 
@@ -70,7 +67,6 @@ let checkIfFavourite = async (req, res, next) => {
         let user = await GetUserById(userID)
         let Book = await BookModel.findOne({ _id: bookId }, { title: 1, price: 1, authors: 1, pageCount: 1, thumbnailUrl: 1, _id: 0 })
 
-
         let found = user.favourite.find((fav, i) => {
             return JSON.stringify(Book) === JSON.stringify(fav)
         })
@@ -87,16 +83,24 @@ let checkIfFavourite = async (req, res, next) => {
 
     }
 
-
 }
+let getAllUser = async (req, res) => {
+	let users = await AuthModel.find({});
+   
+	if (users) {
+		res.status(200).json({ message: "success", length: users.length, data: users });
+	} else {
+		res.status(404).json({ message: 'fail' });
+	}
+};
 
 module.exports = {
 
     GetUserData,
     GetUserById,
-
     AddToFavourites,
     RemoveFromFavourites,
-    checkIfFavourite
+    checkIfFavourite,
+    getAllUser
 }
 
