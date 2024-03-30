@@ -6,8 +6,8 @@ const PORT = process.env.PORT ||3000 ;
 const cors = require('cors');
 
 const mongoose = require('mongoose');
-const DB_URL = "mongodb://localhost:27017/BookShelf";
-mongoose.connect(DB_URL,{  autoIndex: true })
+
+mongoose.connect(MONGO_URI,{  autoIndex: true })
 .then(()=>{console.log("connected")});
 
 app.use(express.urlencoded({extended:true}));
