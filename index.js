@@ -1,4 +1,4 @@
-// require('dotenv').config()
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT ||3000 ;
@@ -6,8 +6,8 @@ const path = require("path");
 const cors = require('cors');
 
 const mongoose = require('mongoose');
-const DB_URL = "mongodb://localhost:27017/BookShelf";
-mongoose.connect(DB_URL,{  autoIndex: true })
+
+mongoose.connect("mongodb+srv://amlmahdawy21:AwxFJT9DHwJNQLK6@cluster0.lh1mpfk.mongodb.net/")
 .then(()=>{console.log("connected")});
 
 app.use(express.urlencoded({extended:true}));
