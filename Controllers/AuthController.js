@@ -12,10 +12,10 @@ async function FoundUser(email) {
 let register = async (req, res) => {
 
     var body = req.body.data;
-
+console.log(body)
 
     let foundUser = await FoundUser(body.email);
-    if (foundUser) return res.status(404).send({ message: false });
+    if (foundUser) return res.status(200).send({ message: false });
 
 
     var salt = await bcrypt.genSalt(10);
@@ -34,7 +34,9 @@ let register = async (req, res) => {
 }
 let login = async (req, res) => {
     var body = req.body.data;
-    
+
+    // console.log(req.body ,"moll")
+ console.log(body,"body")
     if (!body.gmail) {
         body.email = body.email.toLowerCase();
         let foundUser = await FoundUser(body.email);
@@ -49,6 +51,7 @@ let login = async (req, res) => {
         res.header("x-auth-token", token);
         res.status(200).send({ token: token ,message:true});
     } else {
+        
         body.email = body.email.toLowerCase();
         let foundUser = await FoundUser(body.email);
         if (!foundUser) return res.status(200).send({ message: false })
